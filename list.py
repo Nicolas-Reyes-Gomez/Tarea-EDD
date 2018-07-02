@@ -62,3 +62,13 @@ class List:
                 i += 1
                 if temp == None:
                     break
+                    
+    def search(self, nombre):
+        if self.empty():
+             print("Lista vacia")
+        elif self.head.nombre == nombre:
+            print(self.head.nombre, self.head.apellido, self.head.telefono, self.head.mail)
+        else:
+            temp = self.head
+            if temp.nombre == nombre:
+                print(temp.nombre, temp.apellido, temp.telefono, temp.mail)
