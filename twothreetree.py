@@ -44,19 +44,19 @@ class Node:
 			self._add(new_node)
 
 		# not leaf - find correct child to descend, and do recursive insert
-		elif new_node.data[0] > self.data[-1]:
+		if(new_node.telefono[0] > self.telefono[-1]):
 			self.child[-1]._insert(new_node)
 		else:
-			for i in range(0, len(self.data)):
-				if new_node.data[0] < self.data[i]:
+			for i in range(0, len(self.telefono)):
+				if new_node.telefono[0] < self.telefono[i]:
 					self.child[i]._insert(new_node)
 					break
 
 	# 3 items in node, split into new sub-tree and add to parent
 	def _split(self):
 		# print("Node _split: " + str(self.data))
-		left_child = Node(self.data[0], self)
-		right_child = Node(self.data[2], self)
+		left_child = Node(self.telefono[0], self)
+		right_child = Node(self.telefono[2], self)
 		if self.child:
 			self.child[0].parent = left_child
 			self.child[1].parent = left_child
@@ -67,7 +67,7 @@ class Node:
 
 		self.child = [left_child]
 		self.child.append(right_child)
-		self.data = [self.data[1]]
+		self.data = [self.telefono[1]]
 
 		# now have new sub-tree, self. need to add self to its parent node
 		if self.parent:
@@ -81,15 +81,15 @@ class Node:
 	# find an item in the tree; return item, or False if not found
 	def _find(self, item):
 		# print ("Find " + str(item))
-		if item in self.data:
+		if item in self.apellido:
 			return item
 		elif self._isLeaf():
 			return False
-		elif item > self.data[-1]:
+		elif item > self.apellido[-1]:
 			return self.child[-1]._find(item)
 		else:
-			for i in range(len(self.data)):
-				if item < self.data[i]:
+			for i in range(len(self.apellido)):
+				if item < self.apellido[i]:
 					return self.child[i]._find(item)
 
 	def _remove(self, item):
@@ -106,25 +106,25 @@ class Tree:
 		print("Tree __init__")
 		self.root = None
 
-	def insert(self, item):
-		print("Tree insert: " + str(item))
+	def insert(self, nombre, apellido, telefono, mail):
+		print("Tree insert: " + nombre + apellido + telefono + mail)
 		if self.root is None:
-			self.root = Node(item)
+			self.root = Node(nombre, apellido, telefono, mail)
 		else:
-			self.root._insert(Node(item))
+			self.root._insert(Node(nombre, apellido, telefono, mail))
 			while self.root.parent:
 				self.root = self.root.parent
 		return True
 
-	def find(self, item):
-		return self.root._find(item)
+	def find(self, apellido):
+		return self.root._find(apellido)
 
 	def remove(self, item):
 		self.root.remove(item)
 
 	def printTop2Tiers(self):
 		print ('----Top 2 Tiers----')
-		print (str(self.root.data))
+		print (str(self.root.telefono))
 		for child in self.root.child:
 			print (str(child.data))
 
